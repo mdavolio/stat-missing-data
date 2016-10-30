@@ -154,7 +154,13 @@ data_frame_1_3<- data.frame()
 
 for (i in 1:1000){
   sample_1_3 <- sample_n(data_set_1, 500)
-  sample_1_3_clean <- sample_1_2
+  for(k in 1:nrow(sample_1_3)){
+    if(is.na(sample_1_3[k,'y'])){sample_1_3[k,'y'] = mean(na.omit(sample_1_3$y))}}
+  for(k in 1:nrow(sample_1_3)){
+    if(is.na(sample_1_3[k,'x1'])){sample_1_3[k,'x1'] = mean(na.omit(sample_1_3$x1))}}
+  for(k in 1:nrow(sample_1_3)){
+    if(is.na(sample_1_3[k,'x2'])){sample_1_3[k,'x2'] = mean(na.omit(sample_1_3$x2))}}
+  sample_1_3_clean <- sample_1_3
   
   # Paramaters
   model_1_3 <- lm(y ~ x1 + x2, data = sample_1_3_clean)
@@ -179,17 +185,21 @@ for (i in 1:1000){
   if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
     data_frame_1_2[i,'True x2'] = T
   } else {data_frame_1_2[i,'True x2'] = F}
+  print(i)
 }
 
-mean_y <- mean(data_frame_1_2$y)
-var_y <- var(data_frame_1_2$y)
-mean_x1 <- mean(data_frame_1_2$x1)
-var_x1 <- var(data_frame_1_2$x1)
-mean_x2 <- mean(data_frame_1_2$x2)
-var_x2 <- var(data_frame_1_2$x2)
-mean_mse <- mean(data_frame_1_2$MSE)
-var_mse <- var(data_frame_1_2$MSE)
 
-True_y <- sum(data_frame_1_2$`True y`) / 1000
-True_x1 <- sum(data_frame_1_2$`True x2`) / 1000
-True_x1 <- sum(data_frame_1_2$`True x2`) / 1000
+summary_table['Set 1, Art. Mean', 'Mean y'] <- mean(data_frame_1_3$y)
+summary_table['Set 1, Art. Mean', 'Var y']  <- var(data_frame_1_3$y)
+summary_table['Set 1, Art. Mean', 'Mean x1']  <- mean(data_frame_1_3$x1)
+summary_table['Set 1, Art. Mean', 'Var x1']  <- var(data_frame_1_3$x1)
+summary_table['Set 1, Art. Mean', 'Mean x2']  <- mean(data_frame_1_3$x2)
+summary_table['Set 1, Art. Mean', 'Var x2']  <- var(data_frame_1_3$x2)
+summary_table['Set 1, Art. Mean', 'Mean MSE']  <- mean(data_frame_1_3$MSE)
+summary_table['Set 1, Art. Mean', 'Var MSE']  <- var(data_frame_1_3$MSE)
+
+summary_table['Set 1, Art. Mean', 'True y %']  <- sum(data_frame_1_3$`True y`) / 1000
+summary_table['Set 1, Art. Mean', 'True x1 %']  <- sum(data_frame_1_3$`True x2`) / 1000
+summary_table['Set 1, Art. Mean', 'True x2 %']  <- sum(data_frame_1_3$`True x2`) / 1000
+
+
