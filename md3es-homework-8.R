@@ -89,3 +89,16 @@ for (i in 1:1000){
     data_frame_1_1[i,'True x2'] = T
   } else {data_frame_1_1[i,'True x2'] = F}
 }
+
+mean_y <- mean(data_frame_1_1$y)
+var_y <- var(data_frame_1_1$y)
+mean_x1 <- mean(data_frame_1_1$x1)
+var_x1 <- var(data_frame_1_1$x1)
+mean_x2 <- mean(data_frame_1_1$x2)
+var_x2 <- var(data_frame_1_1$x2)
+mean_mse <- mean(data_frame_1_1$MSE)
+var_mse <- var(data_frame_1_1$MSE)
+
+True_y <- sum(data_frame_1_1$`True y`) / 1000
+True_x1 <- sum(data_frame_1_1$`True x2`) / 1000
+True_x1 <- sum(data_frame_1_1$`True x2`) / 1000
