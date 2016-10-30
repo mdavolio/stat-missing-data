@@ -48,6 +48,7 @@ library(dplyr)
 #
 # Summarize your findings in a table and discuss your observations.
 
+summary_table <- data.frame()
 
 # Data Set 1 (MCAR)
 
@@ -90,18 +91,18 @@ for (i in 1:1000){
   } else {data_frame_1_1[i,'True x2'] = F}
 }
 
-mean_y <- mean(data_frame_1_1$y)
-var_y <- var(data_frame_1_1$y)
-mean_x1 <- mean(data_frame_1_1$x1)
-var_x1 <- var(data_frame_1_1$x1)
-mean_x2 <- mean(data_frame_1_1$x2)
-var_x2 <- var(data_frame_1_1$x2)
-mean_mse <- mean(data_frame_1_1$MSE)
-var_mse <- var(data_frame_1_1$MSE)
+summary_table['Set 1, Listwise', 'Mean y'] <- mean(data_frame_1_1$y)
+summary_table['Set 1, Listwise', 'Var y']  <- var(data_frame_1_1$y)
+summary_table['Set 1, Listwise', 'Mean x1']  <- mean(data_frame_1_1$x1)
+summary_table['Set 1, Listwise', 'Var x1']  <- var(data_frame_1_1$x1)
+summary_table['Set 1, Listwise', 'Mean x2']  <- mean(data_frame_1_1$x2)
+summary_table['Set 1, Listwise', 'Var x2']  <- var(data_frame_1_1$x2)
+summary_table['Set 1, Listwise', 'Mean MSE']  <- mean(data_frame_1_1$MSE)
+summary_table['Set 1, Listwise', 'Var MSE']  <- var(data_frame_1_1$MSE)
 
-True_y <- sum(data_frame_1_1$`True y`) / 1000
-True_x1 <- sum(data_frame_1_1$`True x2`) / 1000
-True_x1 <- sum(data_frame_1_1$`True x2`) / 1000
+summary_table['Set 1, Listwise', 'True y %']  <- sum(data_frame_1_1$`True y`) / 1000
+summary_table['Set 1, Listwise', 'True x1 %']  <- sum(data_frame_1_1$`True x2`) / 1000
+summary_table['Set 1, Listwise', 'True x2 %']  <- sum(data_frame_1_1$`True x2`) / 1000
 
 # Pairwise
 data_frame_1_2<- data.frame()
@@ -129,6 +130,51 @@ for (i in 1:1000){
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_2[i,'True x1'] = T
   } else {data_frame_1_2[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_2[i,'True x2'] = T
+  } else {data_frame_1_2[i,'True x2'] = F}
+}
+
+summary_table['Set 1, Pairwise', 'Mean y'] <- mean(data_frame_1_2$y)
+summary_table['Set 1, Pairwise', 'Var y']  <- var(data_frame_1_2$y)
+summary_table['Set 1, Pairwise', 'Mean x1']  <- mean(data_frame_1_2$x1)
+summary_table['Set 1, Pairwise', 'Var x1']  <- var(data_frame_1_2$x1)
+summary_table['Set 1, Pairwise', 'Mean x2']  <- mean(data_frame_1_2$x2)
+summary_table['Set 1, Pairwise', 'Var x2']  <- var(data_frame_1_2$x2)
+summary_table['Set 1, Pairwise', 'Mean MSE']  <- mean(data_frame_1_2$MSE)
+summary_table['Set 1, Pairwise', 'Var MSE']  <- var(data_frame_1_2$MSE)
+
+summary_table['Set 1, Pairwise', 'True y %']  <- sum(data_frame_1_2$`True y`) / 1000
+summary_table['Set 1, Pairwise', 'True x1 %']  <- sum(data_frame_1_2$`True x2`) / 1000
+summary_table['Set 1, Pairwise', 'True x2 %']  <- sum(data_frame_1_2$`True x2`) / 1000
+
+# Arithetic Mean
+data_frame_1_3<- data.frame()
+
+for (i in 1:1000){
+  sample_1_3 <- sample_n(data_set_1, 500)
+  sample_1_3_clean <- sample_1_2
+  
+  # Paramaters
+  model_1_3 <- lm(y ~ x1 + x2, data = sample_1_3_clean)
+  data_frame_1_3[i,'y'] <- model_1_3$coefficients[1]
+  data_frame_1_3[i,'x1'] <- model_1_3$coefficients[2]
+  data_frame_1_3[i,'x2'] <- model_1_3$coefficients[3]
+  
+  # MSE
+  data_frame_1_3[i, 'MSE'] <- mse(model_1_3)
+  
+  # Confidence Interval
+  ci <- confint(model_1_3)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_3[i,'True y'] = T
+  } else {data_frame_1_3[i,'True y'] = F}
+  
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_3[i,'True x1'] = T
+  } else {data_frame_1_3[i,'True x1'] = F}
   
   if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
     data_frame_1_2[i,'True x2'] = T
