@@ -102,3 +102,48 @@ var_mse <- var(data_frame_1_1$MSE)
 True_y <- sum(data_frame_1_1$`True y`) / 1000
 True_x1 <- sum(data_frame_1_1$`True x2`) / 1000
 True_x1 <- sum(data_frame_1_1$`True x2`) / 1000
+
+# Pairwise
+data_frame_1_2<- data.frame()
+
+for (i in 1:1000){
+  sample_1_2 <- sample_n(data_set_1, 500)
+  sample_1_2_clean <- sample_1_2
+  
+  # Paramaters
+  model_1_2 <- lm(y ~ x1 + x2, data = sample_1_2_clean)
+  data_frame_1_2[i,'y'] <- model_1_2$coefficients[1]
+  data_frame_1_2[i,'x1'] <- model_1_2$coefficients[2]
+  data_frame_1_2[i,'x2'] <- model_1_2$coefficients[3]
+  
+  # MSE
+  data_frame_1_2[i, 'MSE'] <- mse(model_1_2)
+  
+  # Confidence Interval
+  ci <- confint(model_1_2)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_2[i,'True y'] = T
+  } else {data_frame_1_2[i,'True y'] = F}
+  
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_2[i,'True x1'] = T
+  } else {data_frame_1_2[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_2[i,'True x2'] = T
+  } else {data_frame_1_2[i,'True x2'] = F}
+}
+
+mean_y <- mean(data_frame_1_2$y)
+var_y <- var(data_frame_1_2$y)
+mean_x1 <- mean(data_frame_1_2$x1)
+var_x1 <- var(data_frame_1_2$x1)
+mean_x2 <- mean(data_frame_1_2$x2)
+var_x2 <- var(data_frame_1_2$x2)
+mean_mse <- mean(data_frame_1_2$MSE)
+var_mse <- var(data_frame_1_2$MSE)
+
+True_y <- sum(data_frame_1_2$`True y`) / 1000
+True_x1 <- sum(data_frame_1_2$`True x2`) / 1000
+True_x1 <- sum(data_frame_1_2$`True x2`) / 1000
