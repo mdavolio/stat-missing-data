@@ -40,11 +40,11 @@ library(dplyr)
 #   (1) Listwise deletion
 #   (2) Pairwise deletion
 #   (3) Arithmetic mean imputation
-#   (4) Regression imputation
-#   (5) Stochastic regression imputation
+#   (4) Regression imputation                    # NOT DONE YET
+#   (5) Stochastic regression imputation         # NOT DONE YET
 #   (6) Hot-Deck imputation
-#   (7) Similar resonse pattern imputation
-#   (8) Indicator method imputation
+#   (7) Similar resonse pattern imputation       # NOT DONE YET
+#   (8) Indicator method imputation              # INDICATOR PARAMS INCLUDED????
 #
 # Summarize your findings in a table and discuss your observations.
 
@@ -316,3 +316,59 @@ summary_table['Set 1, Hot-Deck', 'Var MSE']  <- var(data_frame_1_6$MSE)
 summary_table['Set 1, Hot-Deck', 'True y %']  <- sum(data_frame_1_6$`True y`) / 1000
 summary_table['Set 1, Hot-Deck', 'True x1 %']  <- sum(data_frame_1_6$`True x2`) / 1000
 summary_table['Set 1, Hot-Deck', 'True x2 %']  <- sum(data_frame_1_6$`True x2`) / 1000
+
+
+# Indicator imputation
+data_frame_1_8<- data.frame()
+
+for (i in 1:1000){
+  sample_1_8 <- sample_n(data_set_1, 500)
+  
+  sample_1_8 <- sample_1_8 %>%
+    mutate(y_ind = ifelse(is.na(y),1,0)) %>%
+    mutate(y = ifelse(is.na(y),0,y)) %>%
+    mutate(x1_ind = ifelse(is.na(x1),1,0)) %>% 
+    mutate(x1 = ifelse(is.na(x1),0,x1)) %>%
+    mutate(x2_ind = ifelse(is.na(x2),1,0)) %>%
+    mutate(x2 = ifelse(is.na(x2),0,x2)) 
+  
+  sample_1_8_clean <- sample_1_8
+  
+  # Paramaters
+  model_1_8 <- lm(y ~ ., data = sample_1_8_clean)
+  data_frame_1_8[i,'y'] <- model_1_8$coefficients[1]
+  data_frame_1_8[i,'x1'] <- model_1_8$coefficients[2]
+  data_frame_1_8[i,'x2'] <- model_1_8$coefficients[3]
+  
+  # MSE
+  data_frame_1_8[i, 'MSE'] <- mse(model_1_8)
+  
+  # Confidence Interval
+  ci <- confint(model_1_8)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_8[i,'True y'] = T
+  } else {data_frame_1_8[i,'True y'] = F}
+  
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_8[i,'True x1'] = T
+  } else {data_frame_1_8[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_8[i,'True x2'] = T
+  } else {data_frame_1_8[i,'True x2'] = F}
+}
+
+
+summary_table['Set 1, Indicator', 'Mean y'] <- mean(data_frame_1_8$y)
+summary_table['Set 1, Indicator', 'Var y']  <- var(data_frame_1_8$y)
+summary_table['Set 1, Indicator', 'Mean x1']  <- mean(data_frame_1_8$x1)
+summary_table['Set 1, Indicator', 'Var x1']  <- var(data_frame_1_8$x1)
+summary_table['Set 1, Indicator', 'Mean x2']  <- mean(data_frame_1_8$x2)
+summary_table['Set 1, Indicator', 'Var x2']  <- var(data_frame_1_8$x2)
+summary_table['Set 1, Indicator', 'Mean MSE']  <- mean(data_frame_1_8$MSE)
+summary_table['Set 1, Indicator', 'Var MSE']  <- var(data_frame_1_8$MSE)
+
+summary_table['Set 1, Indicator', 'True y %']  <- sum(data_frame_1_8$`True y`) / 1000
+summary_table['Set 1, Indicator', 'True x1 %']  <- sum(data_frame_1_8$`True x2`) / 1000
+summary_table['Set 1, Indicator', 'True x2 %']  <- sum(data_frame_1_8$`True x2`) / 1000
