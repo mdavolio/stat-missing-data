@@ -209,7 +209,19 @@ data_frame_1_4<- data.frame()
 for (i in 1:1000){
   sample_1_4 <- sample_n(data_set_1, 500)
 
+  temp.lm <- lm(y ~ x1 + x2, data = sample_1_4)
+  temp_y <- temp.lm$coef[1]
+  temp_x1 <- temp.lm$coef[2]
+  temp_x2 <- temp.lm$coef[3]
   
+  sample_1_4 <- sample_1_4 %>%
+    mutate(y = ifelse(is.na(y),temp_y,y)) 
+  sample_1_4 <- sample_1_4 %>%
+    mutate(x1 = ifelse(is.na(x1),temp_x1,x1))
+  sample_1_4 <- sample_1_4 %>%
+    mutate(x2 = ifelse(is.na(x2),temp_x2,x2))
+  
+  sample_1_4_clean <- sample_1_4
   
   # Paramaters
   model_1_4 <- lm(y ~ x1 + x2, data = sample_1_4_clean)
