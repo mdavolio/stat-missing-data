@@ -155,13 +155,14 @@ data_frame_1_3<- data.frame()
 for (i in 1:1000){
   sample_1_3 <- sample_n(data_set_1, 500)
   
-  sample_1_3_clean <- sample_1_3 %>%
-    mutate(colname = ifelse(is.na(y),mean(na.omit(sample_1_3$y)),y)) 
-  sample_1_3_clean <- sample_1_3 %>%
-    mutate(colname = ifelse(is.na(x1),mean(na.omit(sample_1_3$x1)),x1)) 
-  sample_1_3_clean <- sample_1_3 %>%
-    mutate(colname = ifelse(is.na(x2),mean(na.omit(sample_1_3$x2)),x2)) 
+  sample_1_3 <- sample_1_3 %>%
+    mutate(y = ifelse(is.na(y),mean(na.omit(sample_1_3$y)),y)) 
+  sample_1_3 <- sample_1_3 %>%
+    mutate(x1 = ifelse(is.na(x1),mean(na.omit(sample_1_3$x1)),x1)) 
+  sample_1_3 <- sample_1_3 %>%
+    mutate(x2 = ifelse(is.na(x2),mean(na.omit(sample_1_3$x2)),x2)) 
   
+  sample_1_3_clean <- sample_1_3
   
   # Paramaters
   model_1_3 <- lm(y ~ x1 + x2, data = sample_1_3_clean)
