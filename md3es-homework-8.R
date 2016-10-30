@@ -10,6 +10,7 @@
 ###########################################################
 
 library(readr)
+library(dplyr)
 
 ##############
 ## Question ##
@@ -47,7 +48,21 @@ library(readr)
 #
 # Summarize your findings in a table and discuss your observations.
 
+
 # Data Set 1 (MCAR)
 
-data_set_1 <- read_csv('Homework08data01.csv')
+data_set_1 <- read_csv('Homework08data01.csv', col_names = F)
+colnames(data_set_1) <- c('y','x1','x2')
+
+mse <- function(model){
+  mean(summary(model)$residuals^2)
+}
+
+# Listwise Deletion
+sample_1_1 <- sample_n(data_set_1, 500)
+sample_1_1_clean <- na.omit(sample_1_1)
+
+model_1_1 <- lm(y ~ x1 + x2, data = sample_1_1_clean)
+
+mse(model_1_1)
 
