@@ -59,10 +59,33 @@ mse <- function(model){
 }
 
 # Listwise Deletion
-sample_1_1 <- sample_n(data_set_1, 500)
-sample_1_1_clean <- na.omit(sample_1_1)
+data_frame_1_1 <- data.frame()
 
-model_1_1 <- lm(y ~ x1 + x2, data = sample_1_1_clean)
+for (i in 1:1000){
+  sample_1_1 <- sample_n(data_set_1, 500)
+  sample_1_1_clean <- na.omit(sample_1_1)
+  
+  # Paramaters
+  model_1_1 <- lm(y ~ x1 + x2, data = sample_1_1_clean)
+  data_frame_1_1[i,'y'] <- model_1_1$coefficients[1]
+  data_frame_1_1[i,'x1'] <- model_1_1$coefficients[2]
+  data_frame_1_1[i,'x2'] <- model_1_1$coefficients[3]
+  
+  # MSE
+  data_frame_1_1[i, 'MSE'] <- mse(model_1_1)
 
-mse(model_1_1)
+  # Confidence Interval
+  ci <- confint(model_1_1)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_1[i,'True y'] = T
+  } else {data_frame_1_1[i,'True y'] = F}
 
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_1[i,'True x1'] = T
+  } else {data_frame_1_1[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_1[i,'True x2'] = T
+  } else {data_frame_1_1[i,'True x2'] = F}
+}
