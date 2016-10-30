@@ -154,13 +154,14 @@ data_frame_1_3<- data.frame()
 
 for (i in 1:1000){
   sample_1_3 <- sample_n(data_set_1, 500)
-  for(k in 1:nrow(sample_1_3)){
-    if(is.na(sample_1_3[k,'y'])){sample_1_3[k,'y'] = mean(na.omit(sample_1_3$y))}}
-  for(k in 1:nrow(sample_1_3)){
-    if(is.na(sample_1_3[k,'x1'])){sample_1_3[k,'x1'] = mean(na.omit(sample_1_3$x1))}}
-  for(k in 1:nrow(sample_1_3)){
-    if(is.na(sample_1_3[k,'x2'])){sample_1_3[k,'x2'] = mean(na.omit(sample_1_3$x2))}}
-  sample_1_3_clean <- sample_1_3
+  
+  sample_1_3_clean <- sample_1_3 %>%
+    mutate(colname = ifelse(is.na(y),mean(na.omit(sample_1_3$y)),y)) 
+  sample_1_3_clean <- sample_1_3 %>%
+    mutate(colname = ifelse(is.na(x1),mean(na.omit(sample_1_3$x1)),x1)) 
+  sample_1_3_clean <- sample_1_3 %>%
+    mutate(colname = ifelse(is.na(x2),mean(na.omit(sample_1_3$x2)),x2)) 
+  
   
   # Paramaters
   model_1_3 <- lm(y ~ x1 + x2, data = sample_1_3_clean)
@@ -185,7 +186,6 @@ for (i in 1:1000){
   if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
     data_frame_1_2[i,'True x2'] = T
   } else {data_frame_1_2[i,'True x2'] = F}
-  print(i)
 }
 
 
@@ -202,4 +202,51 @@ summary_table['Set 1, Art. Mean', 'True y %']  <- sum(data_frame_1_3$`True y`) /
 summary_table['Set 1, Art. Mean', 'True x1 %']  <- sum(data_frame_1_3$`True x2`) / 1000
 summary_table['Set 1, Art. Mean', 'True x2 %']  <- sum(data_frame_1_3$`True x2`) / 1000
 
+# Regression imputation
+data_frame_1_4<- data.frame()
+
+for (i in 1:1000){
+  sample_1_4 <- sample_n(data_set_1, 500)
+
+  
+  
+  # Paramaters
+  model_1_4 <- lm(y ~ x1 + x2, data = sample_1_4_clean)
+  data_frame_1_4[i,'y'] <- model_1_4$coefficients[1]
+  data_frame_1_4[i,'x1'] <- model_1_4$coefficients[2]
+  data_frame_1_4[i,'x2'] <- model_1_4$coefficients[3]
+  
+  # MSE
+  data_frame_1_4[i, 'MSE'] <- mse(model_1_4)
+  
+  # Confidence Interval
+  ci <- confint(model_1_4)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_4[i,'True y'] = T
+  } else {data_frame_1_4[i,'True y'] = F}
+  
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_4[i,'True x1'] = T
+  } else {data_frame_1_4[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_4[i,'True x2'] = T
+  } else {data_frame_1_4[i,'True x2'] = F}
+  print(i)
+}
+
+
+summary_table['Set 1, Reg Imp', 'Mean y'] <- mean(data_frame_1_4$y)
+summary_table['Set 1, Reg Imp', 'Var y']  <- var(data_frame_1_4$y)
+summary_table['Set 1, Reg Imp', 'Mean x1']  <- mean(data_frame_1_4$x1)
+summary_table['Set 1, Reg Imp', 'Var x1']  <- var(data_frame_1_4$x1)
+summary_table['Set 1, Reg Imp', 'Mean x2']  <- mean(data_frame_1_4$x2)
+summary_table['Set 1, Reg Imp', 'Var x2']  <- var(data_frame_1_4$x2)
+summary_table['Set 1, Reg Imp', 'Mean MSE']  <- mean(data_frame_1_4$MSE)
+summary_table['Set 1, Reg Imp', 'Var MSE']  <- var(data_frame_1_4$MSE)
+
+summary_table['Set 1, Reg Imp', 'True y %']  <- sum(data_frame_1_4$`True y`) / 1000
+summary_table['Set 1, Reg Imp', 'True x1 %']  <- sum(data_frame_1_4$`True x2`) / 1000
+summary_table['Set 1, Reg Imp', 'True x2 %']  <- sum(data_frame_1_4$`True x2`) / 1000
 
