@@ -9,6 +9,8 @@
 ## Your answers may be submitted as an annotated R file. ##
 ###########################################################
 
+library(readr)
+
 ##############
 ## Question ##
 ##############
@@ -45,4 +47,7 @@
 #
 # Summarize your findings in a table and discuss your observations.
 
+# Data Set 1 (MCAR)
+
+data_set_1 <- read_csv('Homework08data01.csv')
 
