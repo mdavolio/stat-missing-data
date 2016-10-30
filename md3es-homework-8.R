@@ -263,3 +263,56 @@ summary_table['Set 1, Reg Imp', 'True y %']  <- sum(data_frame_1_4$`True y`) / 1
 summary_table['Set 1, Reg Imp', 'True x1 %']  <- sum(data_frame_1_4$`True x2`) / 1000
 summary_table['Set 1, Reg Imp', 'True x2 %']  <- sum(data_frame_1_4$`True x2`) / 1000
 
+# Hot-Deck imputation
+data_frame_1_6<- data.frame()
+
+for (i in 1:1000){
+  sample_1_6 <- sample_n(data_set_1, 500)
+  
+  sample_1_6 <- sample_1_6 %>%
+    mutate(y = ifelse(is.na(y),sample(na.omit(sample_1_6$y), 1),y)) 
+  sample_1_6 <- sample_1_6 %>%
+    mutate(x1 = ifelse(is.na(x1),sample(na.omit(sample_1_6$x1), 1),x1)) 
+  sample_1_6 <- sample_1_6 %>%
+    mutate(x2 = ifelse(is.na(x2),sample(na.omit(sample_1_6$x2), 1),x2)) 
+  
+  sample_1_6_clean <- sample_1_6
+  
+  # Paramaters
+  model_1_6 <- lm(y ~ x1 + x2, data = sample_1_6_clean)
+  data_frame_1_6[i,'y'] <- model_1_6$coefficients[1]
+  data_frame_1_6[i,'x1'] <- model_1_6$coefficients[2]
+  data_frame_1_6[i,'x2'] <- model_1_6$coefficients[3]
+  
+  # MSE
+  data_frame_1_6[i, 'MSE'] <- mse(model_1_6)
+  
+  # Confidence Interval
+  ci <- confint(model_1_6)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_6[i,'True y'] = T
+  } else {data_frame_1_6[i,'True y'] = F}
+  
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_6[i,'True x1'] = T
+  } else {data_frame_1_6[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_6[i,'True x2'] = T
+  } else {data_frame_1_6[i,'True x2'] = F}
+}
+
+
+summary_table['Set 1, Hot-Deck', 'Mean y'] <- mean(data_frame_1_6$y)
+summary_table['Set 1, Hot-Deck', 'Var y']  <- var(data_frame_1_6$y)
+summary_table['Set 1, Hot-Deck', 'Mean x1']  <- mean(data_frame_1_6$x1)
+summary_table['Set 1, Hot-Deck', 'Var x1']  <- var(data_frame_1_6$x1)
+summary_table['Set 1, Hot-Deck', 'Mean x2']  <- mean(data_frame_1_6$x2)
+summary_table['Set 1, Hot-Deck', 'Var x2']  <- var(data_frame_1_6$x2)
+summary_table['Set 1, Hot-Deck', 'Mean MSE']  <- mean(data_frame_1_6$MSE)
+summary_table['Set 1, Hot-Deck', 'Var MSE']  <- var(data_frame_1_6$MSE)
+
+summary_table['Set 1, Hot-Deck', 'True y %']  <- sum(data_frame_1_6$`True y`) / 1000
+summary_table['Set 1, Hot-Deck', 'True x1 %']  <- sum(data_frame_1_6$`True x2`) / 1000
+summary_table['Set 1, Hot-Deck', 'True x2 %']  <- sum(data_frame_1_6$`True x2`) / 1000
