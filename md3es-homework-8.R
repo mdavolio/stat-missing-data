@@ -284,14 +284,12 @@ for (i in 1:1000){
   x2_data <- data.frame(sample_1_5$y,sample_1_5$x1)
   names(x2_data) <- c('y', 'x1')
   
-  error <- # create error to be added to each
-  
   sample_1_5 <- sample_1_5 %>%
-    mutate(y = ifelse(is.na(y),predict(y.lm,y_data) + error,y)) # Need to add error  
+    mutate(y = ifelse(is.na(y),predict(y.lm,y_data) + rnorm(1, mean = 0, sd = sqrt(mse(y.lm))),y))
   sample_1_5 <- sample_1_5 %>%
-    mutate(x1 = ifelse(is.na(x1),predict(x1.lm,x1_data) + error,x1))
+    mutate(x1 = ifelse(is.na(x1),predict(x1.lm,x1_data) + rnorm(1, mean = 0, sd = sqrt(mse(x1.lm))),x1))
   sample_1_5 <- sample_1_5 %>%
-    mutate(x2 = ifelse(is.na(x2),predict(x2.lm,x2_data) + error,x2))
+    mutate(x2 = ifelse(is.na(x2),predict(x2.lm,x2_data) + rnorm(1, mean = 0, sd = sqrt(mse(x2.lm))),x2))
   
   sample_1_5_clean <- sample_1_5
   
