@@ -391,8 +391,13 @@ data_frame_1_7<- data.frame()
 for (i in 1:1000){
   sample_1_7 <- sample_n(data_set_1, 500)
   
+  similar <- function{
+    
+  }
+  
+  
   sample_1_7 <- sample_1_7 %>%
-     
+    mutate(y = ifelse(is.na(y),,y)) 
   
   sample_1_7_clean <- sample_1_7
   
