@@ -38,7 +38,7 @@ library(dplyr)
 #
 # The "traditional" methods to use:
 #   (1) Listwise deletion
-#   (2) Pairwise deletion
+#   (2) Pairwise deletion                        # MAYBE MORE?
 #   (3) Arithmetic mean imputation
 #   (4) Regression imputation                    # NOT DONE YET
 #   (5) Stochastic regression imputation         # NOT DONE YET
@@ -189,7 +189,6 @@ for (i in 1:1000){
   } else {data_frame_1_2[i,'True x2'] = F}
 }
 
-
 summary_table['Set 1, Art. Mean', 'Mean y'] <- mean(data_frame_1_3$y)
 summary_table['Set 1, Art. Mean', 'Var y']  <- var(data_frame_1_3$y)
 summary_table['Set 1, Art. Mean', 'Mean x1']  <- mean(data_frame_1_3$x1)
@@ -209,17 +208,23 @@ data_frame_1_4<- data.frame()
 for (i in 1:1000){
   sample_1_4 <- sample_n(data_set_1, 500)
 
-  temp.lm <- lm(y ~ x1 + x2, data = sample_1_4)
-  temp_y <- temp.lm$coef[1]
-  temp_x1 <- temp.lm$coef[2]
-  temp_x2 <- temp.lm$coef[3]
+  y.lm <- lm(y ~ x1 + x2, data = sample_1_4)
+  x1.lm <- lm(x1 ~ y + x2, data = sample_1_4)
+  x2.lm <- lm(x2 ~ y + x1, data = sample_1_4)
+  
+  y_data <- data.frame(sample_1_4$x1,sample_1_4$x2)
+  names(y_data) <- c('x1', 'x2')
+  x1_data <- data.frame(sample_1_4$y,sample_1_4$x2)
+  names(x1_data) <- c('y', 'x2')
+  x2_data <- data.frame(sample_1_4$y,sample_1_4$x1)
+  names(x2_data) <- c('y', 'x1')
   
   sample_1_4 <- sample_1_4 %>%
-    mutate(y = ifelse(is.na(y),temp_y,y)) 
+    mutate(y = ifelse(is.na(y),predict(y.lm,y_data),y)) 
   sample_1_4 <- sample_1_4 %>%
-    mutate(x1 = ifelse(is.na(x1),temp_x1,x1))
+    mutate(x1 = ifelse(is.na(x1),predict(x1.lm,x1_data),x1))
   sample_1_4 <- sample_1_4 %>%
-    mutate(x2 = ifelse(is.na(x2),temp_x2,x2))
+    mutate(x2 = ifelse(is.na(x2),predict(x2.lm,x2_data),x2))
   
   sample_1_4_clean <- sample_1_4
   
@@ -248,7 +253,6 @@ for (i in 1:1000){
   } else {data_frame_1_4[i,'True x2'] = F}
   print(i)
 }
-
 
 summary_table['Set 1, Reg Imp', 'Mean y'] <- mean(data_frame_1_4$y)
 summary_table['Set 1, Reg Imp', 'Var y']  <- var(data_frame_1_4$y)
@@ -302,7 +306,6 @@ for (i in 1:1000){
     data_frame_1_6[i,'True x2'] = T
   } else {data_frame_1_6[i,'True x2'] = F}
 }
-
 
 summary_table['Set 1, Hot-Deck', 'Mean y'] <- mean(data_frame_1_6$y)
 summary_table['Set 1, Hot-Deck', 'Var y']  <- var(data_frame_1_6$y)
@@ -358,7 +361,6 @@ for (i in 1:1000){
     data_frame_1_8[i,'True x2'] = T
   } else {data_frame_1_8[i,'True x2'] = F}
 }
-
 
 summary_table['Set 1, Indicator', 'Mean y'] <- mean(data_frame_1_8$y)
 summary_table['Set 1, Indicator', 'Var y']  <- var(data_frame_1_8$y)
