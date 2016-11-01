@@ -68,7 +68,7 @@ for (i in 1:1000){
   
   # Paramaters
   model_1_1 <- lm(y ~ x1 + x2, data = sample_1_1_clean)
-  data_frame_1_1[i,'y'] <- model_1_1$coefficients[1]
+  data_frame_1_1[i,'int'] <- model_1_1$coefficients[1]
   data_frame_1_1[i,'x1'] <- model_1_1$coefficients[2]
   data_frame_1_1[i,'x2'] <- model_1_1$coefficients[3]
   
@@ -79,8 +79,8 @@ for (i in 1:1000){
   ci <- confint(model_1_1)
   
   if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
-    data_frame_1_1[i,'True y'] = T
-  } else {data_frame_1_1[i,'True y'] = F}
+    data_frame_1_1[i,'True int'] = T
+  } else {data_frame_1_1[i,'True int'] = F}
 
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_1[i,'True x1'] = T
@@ -91,8 +91,8 @@ for (i in 1:1000){
   } else {data_frame_1_1[i,'True x2'] = F}
 }
 
-summary_table['Set 1, Listwise', 'Mean y'] <- mean(data_frame_1_1$y)
-summary_table['Set 1, Listwise', 'Var y']  <- var(data_frame_1_1$y)
+summary_table['Set 1, Listwise', 'Mean int'] <- mean(data_frame_1_1$int)
+summary_table['Set 1, Listwise', 'Var int']  <- var(data_frame_1_1$int)
 summary_table['Set 1, Listwise', 'Mean x1']  <- mean(data_frame_1_1$x1)
 summary_table['Set 1, Listwise', 'Var x1']  <- var(data_frame_1_1$x1)
 summary_table['Set 1, Listwise', 'Mean x2']  <- mean(data_frame_1_1$x2)
@@ -100,7 +100,7 @@ summary_table['Set 1, Listwise', 'Var x2']  <- var(data_frame_1_1$x2)
 summary_table['Set 1, Listwise', 'Mean MSE']  <- mean(data_frame_1_1$MSE)
 summary_table['Set 1, Listwise', 'Var MSE']  <- var(data_frame_1_1$MSE)
 
-summary_table['Set 1, Listwise', 'True y %']  <- sum(data_frame_1_1$`True y`) / 1000
+summary_table['Set 1, Listwise', 'True int %']  <- sum(data_frame_1_1$`True int`) / 1000
 summary_table['Set 1, Listwise', 'True x1 %']  <- sum(data_frame_1_1$`True x2`) / 1000
 summary_table['Set 1, Listwise', 'True x2 %']  <- sum(data_frame_1_1$`True x2`) / 1000
 
@@ -113,7 +113,7 @@ for (i in 1:1000){
   
   # Paramaters
   model_1_2 <- lm(y ~ x1 + x2, data = sample_1_2_clean)
-  data_frame_1_2[i,'y'] <- model_1_2$coefficients[1]
+  data_frame_1_2[i,'int'] <- model_1_2$coefficients[1]
   data_frame_1_2[i,'x1'] <- model_1_2$coefficients[2]
   data_frame_1_2[i,'x2'] <- model_1_2$coefficients[3]
   
@@ -124,8 +124,8 @@ for (i in 1:1000){
   ci <- confint(model_1_2)
   
   if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
-    data_frame_1_2[i,'True y'] = T
-  } else {data_frame_1_2[i,'True y'] = F}
+    data_frame_1_2[i,'True int'] = T
+  } else {data_frame_1_2[i,'True int'] = F}
   
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_2[i,'True x1'] = T
@@ -136,8 +136,8 @@ for (i in 1:1000){
   } else {data_frame_1_2[i,'True x2'] = F}
 }
 
-summary_table['Set 1, Pairwise', 'Mean y'] <- mean(data_frame_1_2$y)
-summary_table['Set 1, Pairwise', 'Var y']  <- var(data_frame_1_2$y)
+summary_table['Set 1, Pairwise', 'Mean int'] <- mean(data_frame_1_2$int)
+summary_table['Set 1, Pairwise', 'Var int']  <- var(data_frame_1_2$int)
 summary_table['Set 1, Pairwise', 'Mean x1']  <- mean(data_frame_1_2$x1)
 summary_table['Set 1, Pairwise', 'Var x1']  <- var(data_frame_1_2$x1)
 summary_table['Set 1, Pairwise', 'Mean x2']  <- mean(data_frame_1_2$x2)
@@ -145,7 +145,7 @@ summary_table['Set 1, Pairwise', 'Var x2']  <- var(data_frame_1_2$x2)
 summary_table['Set 1, Pairwise', 'Mean MSE']  <- mean(data_frame_1_2$MSE)
 summary_table['Set 1, Pairwise', 'Var MSE']  <- var(data_frame_1_2$MSE)
 
-summary_table['Set 1, Pairwise', 'True y %']  <- sum(data_frame_1_2$`True y`) / 1000
+summary_table['Set 1, Pairwise', 'True int %']  <- sum(data_frame_1_2$`True int`) / 1000
 summary_table['Set 1, Pairwise', 'True x1 %']  <- sum(data_frame_1_2$`True x2`) / 1000
 summary_table['Set 1, Pairwise', 'True x2 %']  <- sum(data_frame_1_2$`True x2`) / 1000
 
@@ -166,7 +166,7 @@ for (i in 1:1000){
   
   # Paramaters
   model_1_3 <- lm(y ~ x1 + x2, data = sample_1_3_clean)
-  data_frame_1_3[i,'y'] <- model_1_3$coefficients[1]
+  data_frame_1_3[i,'int'] <- model_1_3$coefficients[1]
   data_frame_1_3[i,'x1'] <- model_1_3$coefficients[2]
   data_frame_1_3[i,'x2'] <- model_1_3$coefficients[3]
   
@@ -177,8 +177,8 @@ for (i in 1:1000){
   ci <- confint(model_1_3)
   
   if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
-    data_frame_1_3[i,'True y'] = T
-  } else {data_frame_1_3[i,'True y'] = F}
+    data_frame_1_3[i,'True int'] = T
+  } else {data_frame_1_3[i,'True int'] = F}
   
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_3[i,'True x1'] = T
@@ -189,8 +189,8 @@ for (i in 1:1000){
   } else {data_frame_1_2[i,'True x2'] = F}
 }
 
-summary_table['Set 1, Art. Mean', 'Mean y'] <- mean(data_frame_1_3$y)
-summary_table['Set 1, Art. Mean', 'Var y']  <- var(data_frame_1_3$y)
+summary_table['Set 1, Art. Mean', 'Mean int'] <- mean(data_frame_1_3$int)
+summary_table['Set 1, Art. Mean', 'Var int']  <- var(data_frame_1_3$int)
 summary_table['Set 1, Art. Mean', 'Mean x1']  <- mean(data_frame_1_3$x1)
 summary_table['Set 1, Art. Mean', 'Var x1']  <- var(data_frame_1_3$x1)
 summary_table['Set 1, Art. Mean', 'Mean x2']  <- mean(data_frame_1_3$x2)
@@ -198,7 +198,7 @@ summary_table['Set 1, Art. Mean', 'Var x2']  <- var(data_frame_1_3$x2)
 summary_table['Set 1, Art. Mean', 'Mean MSE']  <- mean(data_frame_1_3$MSE)
 summary_table['Set 1, Art. Mean', 'Var MSE']  <- var(data_frame_1_3$MSE)
 
-summary_table['Set 1, Art. Mean', 'True y %']  <- sum(data_frame_1_3$`True y`) / 1000
+summary_table['Set 1, Art. Mean', 'True int %']  <- sum(data_frame_1_3$`True int`) / 1000
 summary_table['Set 1, Art. Mean', 'True x1 %']  <- sum(data_frame_1_3$`True x2`) / 1000
 summary_table['Set 1, Art. Mean', 'True x2 %']  <- sum(data_frame_1_3$`True x2`) / 1000
 
@@ -230,7 +230,7 @@ for (i in 1:1000){
   
   # Paramaters
   model_1_4 <- lm(y ~ x1 + x2, data = sample_1_4_clean)
-  data_frame_1_4[i,'y'] <- model_1_4$coefficients[1]
+  data_frame_1_4[i,'int'] <- model_1_4$coefficients[1]
   data_frame_1_4[i,'x1'] <- model_1_4$coefficients[2]
   data_frame_1_4[i,'x2'] <- model_1_4$coefficients[3]
   
@@ -241,8 +241,8 @@ for (i in 1:1000){
   ci <- confint(model_1_4)
   
   if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
-    data_frame_1_4[i,'True y'] = T
-  } else {data_frame_1_4[i,'True y'] = F}
+    data_frame_1_4[i,'True int'] = T
+  } else {data_frame_1_4[i,'True int'] = F}
   
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_4[i,'True x1'] = T
@@ -254,8 +254,8 @@ for (i in 1:1000){
   print(i)
 }
 
-summary_table['Set 1, Reg Imp', 'Mean y'] <- mean(data_frame_1_4$y)
-summary_table['Set 1, Reg Imp', 'Var y']  <- var(data_frame_1_4$y)
+summary_table['Set 1, Reg Imp', 'Mean int'] <- mean(data_frame_1_4$int)
+summary_table['Set 1, Reg Imp', 'Var int']  <- var(data_frame_1_4$int)
 summary_table['Set 1, Reg Imp', 'Mean x1']  <- mean(data_frame_1_4$x1)
 summary_table['Set 1, Reg Imp', 'Var x1']  <- var(data_frame_1_4$x1)
 summary_table['Set 1, Reg Imp', 'Mean x2']  <- mean(data_frame_1_4$x2)
@@ -263,7 +263,7 @@ summary_table['Set 1, Reg Imp', 'Var x2']  <- var(data_frame_1_4$x2)
 summary_table['Set 1, Reg Imp', 'Mean MSE']  <- mean(data_frame_1_4$MSE)
 summary_table['Set 1, Reg Imp', 'Var MSE']  <- var(data_frame_1_4$MSE)
 
-summary_table['Set 1, Reg Imp', 'True y %']  <- sum(data_frame_1_4$`True y`) / 1000
+summary_table['Set 1, Reg Imp', 'True int %']  <- sum(data_frame_1_4$`True int`) / 1000
 summary_table['Set 1, Reg Imp', 'True x1 %']  <- sum(data_frame_1_4$`True x2`) / 1000
 summary_table['Set 1, Reg Imp', 'True x2 %']  <- sum(data_frame_1_4$`True x2`) / 1000
 
@@ -295,7 +295,7 @@ for (i in 1:1000){
   
   # Paramaters
   model_1_5 <- lm(y ~ x1 + x2, data = sample_1_5_clean)
-  data_frame_1_5[i,'y'] <- model_1_5$coefficients[1]
+  data_frame_1_5[i,'int'] <- model_1_5$coefficients[1]
   data_frame_1_5[i,'x1'] <- model_1_5$coefficients[2]
   data_frame_1_5[i,'x2'] <- model_1_5$coefficients[3]
   
@@ -306,8 +306,8 @@ for (i in 1:1000){
   ci <- confint(model_1_5)
   
   if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
-    data_frame_1_5[i,'True y'] = T
-  } else {data_frame_1_5[i,'True y'] = F}
+    data_frame_1_5[i,'True int'] = T
+  } else {data_frame_1_5[i,'True int'] = F}
   
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_5[i,'True x1'] = T
@@ -319,8 +319,8 @@ for (i in 1:1000){
   print(i)
 }
 
-summary_table['Set 1, Stocastic Reg', 'Mean y'] <- mean(data_frame_1_5$y)
-summary_table['Set 1, Stocastic Reg', 'Var y']  <- var(data_frame_1_5$y)
+summary_table['Set 1, Stocastic Reg', 'Mean int'] <- mean(data_frame_1_5$int)
+summary_table['Set 1, Stocastic Reg', 'Var int']  <- var(data_frame_1_5$int)
 summary_table['Set 1, Stocastic Reg', 'Mean x1']  <- mean(data_frame_1_5$x1)
 summary_table['Set 1, Stocastic Reg', 'Var x1']  <- var(data_frame_1_5$x1)
 summary_table['Set 1, Stocastic Reg', 'Mean x2']  <- mean(data_frame_1_5$x2)
@@ -328,7 +328,7 @@ summary_table['Set 1, Stocastic Reg', 'Var x2']  <- var(data_frame_1_5$x2)
 summary_table['Set 1, Stocastic Reg', 'Mean MSE']  <- mean(data_frame_1_5$MSE)
 summary_table['Set 1, Stocastic Reg', 'Var MSE']  <- var(data_frame_1_5$MSE)
 
-summary_table['Set 1, Stocastic Reg', 'True y %']  <- sum(data_frame_1_5$`True y`) / 1000
+summary_table['Set 1, Stocastic Reg', 'True int %']  <- sum(data_frame_1_5$`True int`) / 1000
 summary_table['Set 1, Stocastic Reg', 'True x1 %']  <- sum(data_frame_1_5$`True x2`) / 1000
 summary_table['Set 1, Stocastic Reg', 'True x2 %']  <- sum(data_frame_1_5$`True x2`) / 1000
 
@@ -349,7 +349,7 @@ for (i in 1:1000){
   
   # Paramaters
   model_1_6 <- lm(y ~ x1 + x2, data = sample_1_6_clean)
-  data_frame_1_6[i,'y'] <- model_1_6$coefficients[1]
+  data_frame_1_6[i,'int'] <- model_1_6$coefficients[1]
   data_frame_1_6[i,'x1'] <- model_1_6$coefficients[2]
   data_frame_1_6[i,'x2'] <- model_1_6$coefficients[3]
   
@@ -360,8 +360,8 @@ for (i in 1:1000){
   ci <- confint(model_1_6)
   
   if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
-    data_frame_1_6[i,'True y'] = T
-  } else {data_frame_1_6[i,'True y'] = F}
+    data_frame_1_6[i,'True int'] = T
+  } else {data_frame_1_6[i,'True int'] = F}
   
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_6[i,'True x1'] = T
@@ -372,8 +372,8 @@ for (i in 1:1000){
   } else {data_frame_1_6[i,'True x2'] = F}
 }
 
-summary_table['Set 1, Hot-Deck', 'Mean y'] <- mean(data_frame_1_6$y)
-summary_table['Set 1, Hot-Deck', 'Var y']  <- var(data_frame_1_6$y)
+summary_table['Set 1, Hot-Deck', 'Mean int'] <- mean(data_frame_1_6$int)
+summary_table['Set 1, Hot-Deck', 'Var int']  <- var(data_frame_1_6$int)
 summary_table['Set 1, Hot-Deck', 'Mean x1']  <- mean(data_frame_1_6$x1)
 summary_table['Set 1, Hot-Deck', 'Var x1']  <- var(data_frame_1_6$x1)
 summary_table['Set 1, Hot-Deck', 'Mean x2']  <- mean(data_frame_1_6$x2)
@@ -381,7 +381,7 @@ summary_table['Set 1, Hot-Deck', 'Var x2']  <- var(data_frame_1_6$x2)
 summary_table['Set 1, Hot-Deck', 'Mean MSE']  <- mean(data_frame_1_6$MSE)
 summary_table['Set 1, Hot-Deck', 'Var MSE']  <- var(data_frame_1_6$MSE)
 
-summary_table['Set 1, Hot-Deck', 'True y %']  <- sum(data_frame_1_6$`True y`) / 1000
+summary_table['Set 1, Hot-Deck', 'True int %']  <- sum(data_frame_1_6$`True int`) / 1000
 summary_table['Set 1, Hot-Deck', 'True x1 %']  <- sum(data_frame_1_6$`True x2`) / 1000
 summary_table['Set 1, Hot-Deck', 'True x2 %']  <- sum(data_frame_1_6$`True x2`) / 1000
 
@@ -404,7 +404,7 @@ for (i in 1:1000){
   
   # Paramaters
   model_1_8 <- lm(y ~ ., data = sample_1_8_clean)
-  data_frame_1_8[i,'y'] <- model_1_8$coefficients[1]
+  data_frame_1_8[i,'int'] <- model_1_8$coefficients[1]
   data_frame_1_8[i,'x1'] <- model_1_8$coefficients[2]
   data_frame_1_8[i,'x2'] <- model_1_8$coefficients[3]
   
@@ -415,8 +415,8 @@ for (i in 1:1000){
   ci <- confint(model_1_8)
   
   if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
-    data_frame_1_8[i,'True y'] = T
-  } else {data_frame_1_8[i,'True y'] = F}
+    data_frame_1_8[i,'True int'] = T
+  } else {data_frame_1_8[i,'True int'] = F}
   
   if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
     data_frame_1_8[i,'True x1'] = T
@@ -427,8 +427,8 @@ for (i in 1:1000){
   } else {data_frame_1_8[i,'True x2'] = F}
 }
 
-summary_table['Set 1, Indicator', 'Mean y'] <- mean(data_frame_1_8$y)
-summary_table['Set 1, Indicator', 'Var y']  <- var(data_frame_1_8$y)
+summary_table['Set 1, Indicator', 'Mean int'] <- mean(data_frame_1_8$int)
+summary_table['Set 1, Indicator', 'Var int']  <- var(data_frame_1_8$int)
 summary_table['Set 1, Indicator', 'Mean x1']  <- mean(data_frame_1_8$x1)
 summary_table['Set 1, Indicator', 'Var x1']  <- var(data_frame_1_8$x1)
 summary_table['Set 1, Indicator', 'Mean x2']  <- mean(data_frame_1_8$x2)
@@ -436,6 +436,6 @@ summary_table['Set 1, Indicator', 'Var x2']  <- var(data_frame_1_8$x2)
 summary_table['Set 1, Indicator', 'Mean MSE']  <- mean(data_frame_1_8$MSE)
 summary_table['Set 1, Indicator', 'Var MSE']  <- var(data_frame_1_8$MSE)
 
-summary_table['Set 1, Indicator', 'True y %']  <- sum(data_frame_1_8$`True y`) / 1000
+summary_table['Set 1, Indicator', 'True int %']  <- sum(data_frame_1_8$`True int`) / 1000
 summary_table['Set 1, Indicator', 'True x1 %']  <- sum(data_frame_1_8$`True x2`) / 1000
 summary_table['Set 1, Indicator', 'True x2 %']  <- sum(data_frame_1_8$`True x2`) / 1000
