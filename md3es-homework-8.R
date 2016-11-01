@@ -40,7 +40,7 @@ library(dplyr)
 #   (1) Listwise deletion
 #   (2) Pairwise deletion                        # MAYBE MORE?
 #   (3) Arithmetic mean imputation
-#   (4) Regression imputation                    # NOT DONE YET
+#   (4) Regression imputation
 #   (5) Stochastic regression imputation         # NOT DONE YET
 #   (6) Hot-Deck imputation
 #   (7) Similar resonse pattern imputation       # NOT DONE YET
@@ -266,6 +266,71 @@ summary_table['Set 1, Reg Imp', 'Var MSE']  <- var(data_frame_1_4$MSE)
 summary_table['Set 1, Reg Imp', 'True y %']  <- sum(data_frame_1_4$`True y`) / 1000
 summary_table['Set 1, Reg Imp', 'True x1 %']  <- sum(data_frame_1_4$`True x2`) / 1000
 summary_table['Set 1, Reg Imp', 'True x2 %']  <- sum(data_frame_1_4$`True x2`) / 1000
+
+# Stochastic regression imputation 
+data_frame_1_5<- data.frame()
+
+for (i in 1:1000){
+  sample_1_5 <- sample_n(data_set_1, 500)
+  
+  y.lm <- lm(y ~ x1 + x2, data = sample_1_5)
+  x1.lm <- lm(x1 ~ y + x2, data = sample_1_5)
+  x2.lm <- lm(x2 ~ y + x1, data = sample_1_5)
+  
+  y_data <- data.frame(sample_1_5$x1,sample_1_5$x2)
+  names(y_data) <- c('x1', 'x2')
+  x1_data <- data.frame(sample_1_5$y,sample_1_5$x2)
+  names(x1_data) <- c('y', 'x2')
+  x2_data <- data.frame(sample_1_5$y,sample_1_5$x1)
+  names(x2_data) <- c('y', 'x1')
+  
+  sample_1_5 <- sample_1_5 %>%
+    mutate(y = ifelse(is.na(y),predict(y.lm,y_data),y)) 
+  sample_1_5 <- sample_1_5 %>%
+    mutate(x1 = ifelse(is.na(x1),predict(x1.lm,x1_data),x1))
+  sample_1_5 <- sample_1_5 %>%
+    mutate(x2 = ifelse(is.na(x2),predict(x2.lm,x2_data),x2))
+  
+  sample_1_5_clean <- sample_1_5
+  
+  # Paramaters
+  model_1_5 <- lm(y ~ x1 + x2, data = sample_1_5_clean)
+  data_frame_1_5[i,'y'] <- model_1_5$coefficients[1]
+  data_frame_1_5[i,'x1'] <- model_1_5$coefficients[2]
+  data_frame_1_5[i,'x2'] <- model_1_5$coefficients[3]
+  
+  # MSE
+  data_frame_1_5[i, 'MSE'] <- mse(model_1_5)
+  
+  # Confidence Interval
+  ci <- confint(model_1_5)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_5[i,'True y'] = T
+  } else {data_frame_1_5[i,'True y'] = F}
+  
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_5[i,'True x1'] = T
+  } else {data_frame_1_5[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_5[i,'True x2'] = T
+  } else {data_frame_1_5[i,'True x2'] = F}
+  print(i)
+}
+
+summary_table['Set 1, Stocastic Reg', 'Mean y'] <- mean(data_frame_1_5$y)
+summary_table['Set 1, Stocastic Reg', 'Var y']  <- var(data_frame_1_5$y)
+summary_table['Set 1, Stocastic Reg', 'Mean x1']  <- mean(data_frame_1_5$x1)
+summary_table['Set 1, Stocastic Reg', 'Var x1']  <- var(data_frame_1_5$x1)
+summary_table['Set 1, Stocastic Reg', 'Mean x2']  <- mean(data_frame_1_5$x2)
+summary_table['Set 1, Stocastic Reg', 'Var x2']  <- var(data_frame_1_5$x2)
+summary_table['Set 1, Stocastic Reg', 'Mean MSE']  <- mean(data_frame_1_5$MSE)
+summary_table['Set 1, Stocastic Reg', 'Var MSE']  <- var(data_frame_1_5$MSE)
+
+summary_table['Set 1, Stocastic Reg', 'True y %']  <- sum(data_frame_1_5$`True y`) / 1000
+summary_table['Set 1, Stocastic Reg', 'True x1 %']  <- sum(data_frame_1_5$`True x2`) / 1000
+summary_table['Set 1, Stocastic Reg', 'True x2 %']  <- sum(data_frame_1_5$`True x2`) / 1000
 
 # Hot-Deck imputation
 data_frame_1_6<- data.frame()
