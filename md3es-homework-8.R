@@ -38,13 +38,13 @@ library(dplyr)
 #
 # The "traditional" methods to use:
 #   (1) Listwise deletion
-#   (2) Pairwise deletion                        # MAYBE MORE?
+#   (2) Pairwise deletion                      
 #   (3) Arithmetic mean imputation
 #   (4) Regression imputation
-#   (5) Stochastic regression imputation         # NOT DONE YET
+#   (5) Stochastic regression imputation        
 #   (6) Hot-Deck imputation
 #   (7) Similar resonse pattern imputation       # NOT DONE YET
-#   (8) Indicator method imputation              # INDICATOR PARAMS INCLUDED????
+#   (8) Indicator method imputation             
 #
 # Summarize your findings in a table and discuss your observations.
 
@@ -384,6 +384,55 @@ summary_table['Set 1, Hot-Deck', 'Var MSE']  <- var(data_frame_1_6$MSE)
 summary_table['Set 1, Hot-Deck', 'True int %']  <- sum(data_frame_1_6$`True int`) / 1000
 summary_table['Set 1, Hot-Deck', 'True x1 %']  <- sum(data_frame_1_6$`True x2`) / 1000
 summary_table['Set 1, Hot-Deck', 'True x2 %']  <- sum(data_frame_1_6$`True x2`) / 1000
+
+# Similar resonse pattern imputation 
+data_frame_1_7<- data.frame()
+
+for (i in 1:1000){
+  sample_1_7 <- sample_n(data_set_1, 500)
+  
+  sample_1_7 <- sample_1_7 %>%
+     
+  
+  sample_1_7_clean <- sample_1_7
+  
+  # Paramaters
+  model_1_7 <- lm(y ~ ., data = sample_1_7_clean)
+  data_frame_1_7[i,'int'] <- model_1_7$coefficients[1]
+  data_frame_1_7[i,'x1'] <- model_1_7$coefficients[2]
+  data_frame_1_7[i,'x2'] <- model_1_7$coefficients[3]
+  
+  # MSE
+  data_frame_1_7[i, 'MSE'] <- mse(model_1_7)
+  
+  # Confidence Interval
+  ci <- confint(model_1_7)
+  
+  if(ci[1,1] < 29.3 && ci[1,2] > 29.3) {
+    data_frame_1_7[i,'True int'] = T
+  } else {data_frame_1_7[i,'True int'] = F}
+  
+  if(ci[2,1] < 5.6 && ci[2,2] > 5.6) {
+    data_frame_1_7[i,'True x1'] = T
+  } else {data_frame_1_7[i,'True x1'] = F}
+  
+  if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
+    data_frame_1_7[i,'True x2'] = T
+  } else {data_frame_1_7[i,'True x2'] = F}
+}
+
+summary_table['Set 1, Similar Resp.', 'Mean int'] <- mean(data_frame_1_7$int)
+summary_table['Set 1, Similar Resp.', 'Var int']  <- var(data_frame_1_7$int)
+summary_table['Set 1, Similar Resp.', 'Mean x1']  <- mean(data_frame_1_7$x1)
+summary_table['Set 1, Similar Resp.', 'Var x1']  <- var(data_frame_1_7$x1)
+summary_table['Set 1, Similar Resp.', 'Mean x2']  <- mean(data_frame_1_7$x2)
+summary_table['Set 1, Similar Resp.', 'Var x2']  <- var(data_frame_1_7$x2)
+summary_table['Set 1, Similar Resp.', 'Mean MSE']  <- mean(data_frame_1_7$MSE)
+summary_table['Set 1, Similar Resp.', 'Var MSE']  <- var(data_frame_1_7$MSE)
+
+summary_table['Set 1, Similar Resp.', 'True int %']  <- sum(data_frame_1_7$`True int`) / 1000
+summary_table['Set 1, Similar Resp.', 'True x1 %']  <- sum(data_frame_1_7$`True x2`) / 1000
+summary_table['Set 1, Similar Resp.', 'True x2 %']  <- sum(data_frame_1_7$`True x2`) / 1000
 
 
 # Indicator imputation
