@@ -639,9 +639,9 @@ data_frame_1_4<- data.frame()
 for (i in 1:1000){
   sample_1_4 <- sample_n(data_set_2, 500)
   
-  y.lm <- lm(y ~ x1 + x2, data = sample_1_4)
-  x1.lm <- lm(x1 ~ y + x2, data = sample_1_4)
-  x2.lm <- lm(x2 ~ y + x1, data = sample_1_4)
+  y.lm <- lm(y ~ x1 + x2, data = na.omit(sample_1_4))
+  x1.lm <- lm(x1 ~ y + x2, data = na.omit(sample_1_4))
+  x2.lm <- lm(x2 ~ y + x1, data = na.omit(sample_1_4))
   
   y_data <- data.frame(sample_1_4$x1,sample_1_4$x2)
   names(y_data) <- c('x1', 'x2')
@@ -703,9 +703,9 @@ data_frame_1_5<- data.frame()
 for (i in 1:1000){
   sample_1_5 <- sample_n(data_set_2, 500)
   
-  y.lm <- lm(y ~ x1 + x2, data = sample_1_5)
-  x1.lm <- lm(x1 ~ y + x2, data = sample_1_5)
-  x2.lm <- lm(x2 ~ y + x1, data = sample_1_5)
+  y.lm <- lm(y ~ x1 + x2, data = na.omit(sample_1_5))
+  x1.lm <- lm(x1 ~ y + x2, data = na.omit(sample_1_5))
+  x2.lm <- lm(x2 ~ y + x1, data = na.omit(sample_1_5))
   
   y_data <- data.frame(sample_1_5$x1,sample_1_5$x2)
   names(y_data) <- c('x1', 'x2')
