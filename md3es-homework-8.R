@@ -490,10 +490,6 @@ summary_table['Set 1, Indicator', 'True x2 %']  <- sum(data_frame_1_8$`True x2`)
 data_set_2 <- read_csv('Homework08data02.csv', col_names = F)
 colnames(data_set_1) <- c('y','x1','x2')
 
-mse <- function(model){
-  mean(summary(model)$residuals^2)
-}
-
 # Listwise Deletion
 data_frame_1_1 <- data.frame()
 
@@ -923,10 +919,6 @@ summary_table['Set 2, Indicator', 'True x2 %']  <- sum(data_frame_1_8$`True x2`)
 
 data_set_3 <- read_csv('Homework08data03.csv', col_names = F)
 colnames(data_set_1) <- c('y','x1','x2')
-
-mse <- function(model){
-  mean(summary(model)$residuals^2)
-}
 
 # Listwise Deletion
 data_frame_1_1 <- data.frame()
