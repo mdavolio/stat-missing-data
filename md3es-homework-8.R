@@ -316,7 +316,6 @@ for (i in 1:1000){
   if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
     data_frame_1_5[i,'True x2'] = T
   } else {data_frame_1_5[i,'True x2'] = F}
-  print(i)
 }
 
 summary_table['Set 1, Stocastic Reg', 'Mean int'] <- mean(data_frame_1_5$int)
@@ -751,7 +750,6 @@ for (i in 1:1000){
   if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
     data_frame_1_5[i,'True x2'] = T
   } else {data_frame_1_5[i,'True x2'] = F}
-  print(i)
 }
 
 summary_table['Set 2, Stocastic Reg', 'Mean int'] <- mean(data_frame_1_5$int)
@@ -1186,7 +1184,6 @@ for (i in 1:1000){
   if(ci[3,1] < 3.8 && ci[3,2] > 3.8) {
     data_frame_1_5[i,'True x2'] = T
   } else {data_frame_1_5[i,'True x2'] = F}
-  print(i)
 }
 
 summary_table['Set 3, Stocastic Reg', 'Mean int'] <- mean(data_frame_1_5$int)
