@@ -488,7 +488,7 @@ summary_table['Set 1, Indicator', 'True x2 %']  <- sum(data_frame_1_8$`True x2`)
 # Data Set 2 (MAR)
 
 data_set_2 <- read_csv('Homework08data02.csv', col_names = F)
-colnames(data_set_1) <- c('y','x1','x2')
+colnames(data_set_2) <- c('y','x1','x2')
 
 # Listwise Deletion
 data_frame_1_1 <- data.frame()
