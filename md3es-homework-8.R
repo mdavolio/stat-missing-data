@@ -1344,3 +1344,13 @@ summary_table['Set 3, Indicator', 'Var MSE']  <- var(data_frame_1_8$MSE)
 summary_table['Set 3, Indicator', 'True int %']  <- sum(data_frame_1_8$`True int`) / 1000
 summary_table['Set 3, Indicator', 'True x1 %']  <- sum(data_frame_1_8$`True x2`) / 1000
 summary_table['Set 3, Indicator', 'True x2 %']  <- sum(data_frame_1_8$`True x2`) / 1000
+
+#******************************************************************************************
+
+# Summary: 
+# (Check attached env for summary table.)
+# When checking how many trials contain the true coeficients, the Indiacator imputation method
+# and arithmatic mean are by far the worst, especially for beta 0. The indicator method is 
+# better when looking at beta 1 and beta 2 however. The best methods for finding the true
+# parameters were listwise and similar response. When looking at MNAR random data, regression
+# imputation was also quite strong for finding the true beta 1 and beta 2 values. 
